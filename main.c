@@ -20,6 +20,7 @@ void gomoku(); // Tuna
 
 int check(char index[], int size);
 void score(char nothing, int count);
+int checking_duplicated(char index[], int size, int num);
 int tic_tac_toe() //jj052
 {
     srand(time(NULL));
@@ -253,6 +254,7 @@ int tic_tac_toe() //jj052
             }
         }
     }
+    return 0;
 }
 int check(char index[], int size){
     if(((index[0] == 'O')&&(index[0]==index[1])&&(index[1]==index[2]))
@@ -300,15 +302,6 @@ int checking_duplicated(char index[], int size, int num){
 
 int hangman(){
     srand(time(NULL));
-    char nothing = ' ';
-    char head = '○';
-    char body = '│';
-    char arm[2];
-    arm[0] = '/';
-    arm[1] = '\\';
-    char leg[2];
-    leg[0] = '/';
-    leg[1] = '\\';
     int select;
     char animal[300][20] = {"elephant", "chicken", "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope","Ape","Aphid",
     "Armadillo","Asp","Baboon","Badger","Eagle","Barracuda","Bass","Basset Hound","Bat","Bear","Beaver","Bedbug","Bee","Beetle",
@@ -321,14 +314,14 @@ int hangman(){
     "Parrot","Peacock","Pelican","Penguin","Perch","Pheasant","Pig","Pigeon","Polar bear","Porcupine","Quail","Rabbit","Raccoon",
     "Rat","Rattlesnake","Raven","Rooster","Sheep","Shrew","Skunk","Snail","Snake","Spider","Tiger","Walrus","Whale","Wolf","Zebra", "Giraffe",
     "Mole"};
-    int len_animal = strlen(animal);
+    int len_animal = 142;
     char fruit[300][20] = {"Apple","Apricot","Avocado","Banana","Blackberry","Blueberry","Cherry","Coconut","Cucumber","Durian","Dragonfruit",
     "Fig","Gooseberry","Grape","Guava","Jackfruit","Plum","Kiwifruit","Kumquat","Lemon","Lime","Mango","Watermelon","Mulberry","Orange",
     "Papaya","Passionfruit","Peach","Pear","Persimmon","Pineapple","Pineberry","Quince","Raspberry","Soursop","Strawberry","Tamarind",
     "Yuzu", "kiwi", "pineapple"};
-    int len_fruit = strlen(fruit);
+    int len_fruit = 40;
     char nation[200][20] = {"Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
-    "Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil",
+    "Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia", "Botswana","Brazil",
     "Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia","Comoros","Congo","Croatia",
     "Cuba",    "Cyprus","Denmark","Djibouti","Dominica","Ecuador","Egypt","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
     "Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia",
@@ -340,7 +333,7 @@ int hangman(){
     "Slovakia","Slovenia","Somalia","Spain","Sudan","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania",
     "Thailand","Togo","Tonga","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","USA","Uruguay","Uzbekistan", "Vanuatu",
     "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"};
-    int len_nation = strlen(nation);
+    int len_nation = 162;
     printf("Game start!\n");
     printf("  ┌───┐\n");
     printf("  %c   │\n", nothing );
@@ -350,7 +343,7 @@ int hangman(){
     int count = 0;
     int num;
     char problem[20];
-    char *answer;
+    char answer;
     int len_answer;
     char char_answer;
     int right = 0;
@@ -363,9 +356,9 @@ int hangman(){
         for (int i = 0; i<len_answer; i++){
             problem[i] = animal[num][i];
         }
-        problem[len_answer] = NULL;
-        answer = (int*)malloc(sizeof(int)*len_answer)+1;
-        answer[len_answer] = NULL;
+        problem[len_answer] = 0;
+        answer = (char*)malloc(sizeof(char)*len_answer+1);
+        answer[len_answer] = 0;
         for (int i = 0; i<len_answer; i++){
             answer[i] = '_';
         }
@@ -426,9 +419,9 @@ int hangman(){
         for (int i = 0; i<len_answer; i++){
             problem[i] = nation[num][i];
         }
-        problem[len_answer] = NULL;
-        answer = (int*)malloc(sizeof(int)*len_answer)+1;
-        answer[len_answer] = NULL;
+        problem[len_answer] = 0;
+        answer = (char*)malloc(sizeof(char)*len_answer+1);
+        answer[len_answer] = 0;
         for (int i = 0; i<len_answer; i++){
             answer[i] = '_';
         }//animal
@@ -489,9 +482,9 @@ int hangman(){
         for (int i = 0; i<len_answer; i++){
             problem[i] = fruit[num][i];
         }
-        problem[len_answer] = NULL;
-        answer = (int*)malloc(sizeof(int)*len_answer)+1;
-        answer[len_answer] = NULL;
+        problem[len_answer] = 0;
+        answer = (char*)malloc(sizeof(char)*len_answer+1);
+        answer[len_answer] = 0;
         for (int i = 0; i<len_answer; i++){
             answer[i] = '_';
         }
@@ -570,36 +563,36 @@ void score(char nothing, int count){
     else if (count == 2){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" %c|%c  │\n",nothing,nothing,nothing );
+        printf(" %c|%c  │\n",nothing,nothing );
         printf(" %c %c  │\n",nothing,nothing);
         printf("      ┴\n");
     }
     else if (count == 3){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" /|%c  │\n",nothing,nothing,nothing );
+        printf(" /|%c  │\n",nothing );
         printf(" %c %c  │\n",nothing,nothing);
         printf("      ┴\n");
     }
     else if (count == 4){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" /|\\  │\n",nothing,nothing,nothing );
+        printf(" /|\\  │\n");
         printf(" %c %c  │\n",nothing,nothing);
         printf("      ┴\n");
     }
     else if (count == 5){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" /|\\  │\n",nothing,nothing,nothing );
-        printf(" / %c  │\n",nothing,nothing);
+        printf(" /|\\  │\n");
+        printf(" / %c  │\n",nothing;
         printf("      ┴\n");
     }
     else if (count == 6){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" /|\\  │\n",nothing,nothing,nothing );
-        printf(" / \\  │\n",nothing,nothing);
+        printf(" /|\\  │\n");
+        printf(" / \\  │\n");
         printf("      ┴\n");
     }
 }
