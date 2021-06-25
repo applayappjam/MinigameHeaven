@@ -53,7 +53,6 @@ int tic_tac_toe() //jj052
         printf("└────┴────┴────┘\n");
         m++;
         while(1){
-            usleep(1000000);
             while(1){
                 the_opponent[n] = rand()%9;
                 if (index[the_opponent[n]]==' '){
@@ -113,6 +112,13 @@ int tic_tac_toe() //jj052
                 printf("input the number again\n");
             }            
             index[my_turn[m]-1] = 'O';
+            printf("┌────┬────┬────┐\n");
+                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
+                printf("├────┼────┼────┤\n");
+                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
+                printf("├────┼────┼────┤\n");
+                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
+                printf("└────┴────┴────┘\n");
             win = check(index, size);
             if (win == 1){
                 printf("┌────┬────┬────┐\n");
@@ -178,7 +184,7 @@ int tic_tac_toe() //jj052
                 printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
                 printf("└────┴────┴────┘\n");
                 printf("★★★★ You win! ★★★★\n");
-                return 0;
+                break;
             }
             if (win == 2){
                 printf("┌────┬────┬────┐\n");
@@ -189,7 +195,7 @@ int tic_tac_toe() //jj052
                 printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
                 printf("└────┴────┴────┘\n");
                 printf("You lose Try again!\n");
-                return 0;
+                break;
             }
             if (win == 3){
                 printf("┌────┬────┬────┐\n");
@@ -288,7 +294,13 @@ int checking_duplicated(char index[], int size, int num){
     }
     return 0;
 }
+
+
+
+
+
 int hangman(){
+    srand(time(NULL));
     char nothing = ' ';
     char head = '○';
     char body = '│';
@@ -344,203 +356,202 @@ int hangman(){
     char char_answer;
     int right = 0;
     int cap;
-    while (1){
-        printf("1 for Animals, 2 for nations, 3 for fruits Select 1-3\n");
-        scanf("%d", &select);
-        if (select == 1){
-            num = rand()%len_animal;
-            len_answer = strlen(animal[num]);
-            for (int i = 0; i<len_answer; i++){
-                problem[i] = animal[num][i];
-            }
-            problem[len_answer] = NULL;
-            answer = (int*)malloc(sizeof(int)*len_answer)+1;
-            answer[len_answer] = NULL;
-            for (int i = 0; i<len_answer; i++){
-                answer[i] = '_';
-            }
-            while(1){
-                printf("Input an alphabet\n");
-                while (1){
-                    scanf(" %c", &char_answer);
-                    if (('a'<=char_answer)&&(char_answer<='z')){
-                        cap = 0; 
-                        break;
-                    }
-                    if (('A'<=char_answer)&&(char_answer<='Z')){
-                        cap = 1; // caps : 1
-                        break;
-                    }
-                    printf("Input the alphabet again\n");
-                }
-                for (int i = 0; i<len_animal; i++){
-                    if ((cap == 0)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&(char_answer+32==problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                }
-                if (right == 0){
-                    count++;
-                }
-                right = 0;
-                score(nothing, count);
-                for (int i = 0; i<len_answer; i++){
-                    printf("%c", answer[i]);
-                }
-                printf("\n");
-                if (strcmp(answer, problem) == 0){
-                    printf("★★★ YOU WIN ★★★\n");
-                    break;
-                }
-                if (count == 6){
-                    printf("You lost. Try again\n");
-                    break;
-                }
-            }
+    printf("1 for Animals, 2 for nations, 3 for fruits Select 1-3\n");
+    scanf("%d", &select);
+    if (select == 1){
+        num = rand()%len_animal;
+        len_answer = strlen(animal[num]);
+        for (int i = 0; i<len_answer; i++){
+            problem[i] = animal[num][i];
         }
-        else if (select == 2){
-            num = rand()%len_nation;
-            len_answer = strlen(nation[num]);
-            for (int i = 0; i<len_answer; i++){
-                problem[i] = nation[num][i];
-            }
-            problem[len_answer] = NULL;
-            answer = (int*)malloc(sizeof(int)*len_answer)+1;
-            answer[len_answer] = NULL;
-            for (int i = 0; i<len_answer; i++){
-                answer[i] = '_';
-            }//animal
-            while(1){
-                printf("Input an alphabet\n");
-                while (1){
-                    scanf(" %c", &char_answer);
-                    if (('a'<=char_answer)&&(char_answer<='z')){
-                        cap = 0; 
-                        break;
-                    }
-                    if (('A'<=char_answer)&&(char_answer<='Z')){
-                        cap = 1; // caps : 1
-                        break;
-                    }
-                    printf("Input the alphabet again\n");
-                }
-                for (int i = 0; i<len_nation; i++){
-                    if ((cap == 0)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&(char_answer+32==problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                }
-                if (right == 0){
-                    count++;
-                }
-                right = 0;
-                score(nothing, count);
-                for (int i = 0; i<len_answer; i++){
-                    printf("%c", answer[i]);
-                }
-                printf("\n");
-                if (strcmp(answer, problem) == 0){
-                    printf("★★★ YOU WIN ★★★\n");
-                    break;
-                }
-                if (count == 6){
-                    printf("You lost. Try again\n");
-                    break;
-                }
-            }
+        problem[len_answer] = NULL;
+        answer = (int*)malloc(sizeof(int)*len_answer)+1;
+        answer[len_answer] = NULL;
+        for (int i = 0; i<len_answer; i++){
+            answer[i] = '_';
         }
-        else if (select == 3){
-            num = rand()%len_fruit;
-            len_answer = strlen(fruit[num]);
-            for (int i = 0; i<len_answer; i++){
-                problem[i] = fruit[num][i];
-            }
-            problem[len_answer] = NULL;
-            answer = (int*)malloc(sizeof(int)*len_answer)+1;
-            answer[len_answer] = NULL;
-            for (int i = 0; i<len_answer; i++){
-                answer[i] = '_';
-            }
-            while(1){
-                printf("Input an alphabet\n");
-                while (1){
-                    scanf(" %c", &char_answer);
-                    if (('a'<=char_answer)&&(char_answer<='z')){
-                        cap = 0; 
-                        break;
-                    }
-                    if (('A'<=char_answer)&&(char_answer<='Z')){
-                        cap = 1; // caps : 1
-                        break;
-                    }
-                    printf("Input the alphabet again\n");
-                }
-                for (int i = 0; i<len_fruit; i++){
-                    if ((cap == 0)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&problem[i] == char_answer){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                    else if ((cap == 1)&&(char_answer+32==problem[i])){
-                        answer[i] = problem[i];
-                        right = 1;
-                    }
-                }
-                if (right == 0){
-                    count++;
-                }
-                right = 0;
-                score(nothing, count);
-                for (int i = 0; i<len_answer; i++){
-                    printf("%c", answer[i]);
-                }
-                printf("\n");
-                if (strcmp(answer, problem) == 0){
-                    printf("★★★ YOU WIN ★★★\n");
+        while(1){
+            printf("Input an alphabet\n");
+            while (1){
+                scanf(" %c", &char_answer);
+                if (('a'<=char_answer)&&(char_answer<='z')){
+                    cap = 0; 
                     break;
                 }
-                if (count == 6){
-                    printf("You lost. Try again\n");
+                if (('A'<=char_answer)&&(char_answer<='Z')){
+                    cap = 1; // caps : 1
                     break;
                 }
+                printf("Input the alphabet again\n");
             }
-        }
-        else{
-            printf("input the number again\n");
-            return 0;
+            for (int i = 0; i<len_animal; i++){
+                if ((cap == 0)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                right = 1;
+                }
+                else if ((cap == 0)&&(char_answer-32 == problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&(char_answer+32==problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+            }
+            if (right == 0){
+                count++;
+            }
+            right = 0;
+            score(nothing, count);
+            for (int i = 0; i<len_answer; i++){
+                printf("%c", answer[i]);
+            }
+            printf("\n");
+            if (strcmp(answer, problem) == 0){
+                printf("★★★ YOU WIN ★★★\n");
+                break;
+            }
+            if (count == 6){
+                printf("You lost. Try again\n");
+                break;
+             }
         }
     }
+    else if (select == 2){
+        num = rand()%len_nation;
+        len_answer = strlen(nation[num]);
+        for (int i = 0; i<len_answer; i++){
+            problem[i] = nation[num][i];
+        }
+        problem[len_answer] = NULL;
+        answer = (int*)malloc(sizeof(int)*len_answer)+1;
+        answer[len_answer] = NULL;
+        for (int i = 0; i<len_answer; i++){
+            answer[i] = '_';
+        }//animal
+        while(1){
+            printf("Input an alphabet\n");
+            while (1){
+                scanf(" %c", &char_answer);
+                if (('a'<=char_answer)&&(char_answer<='z')){
+                    cap = 0; 
+                    break;
+                }
+                if (('A'<=char_answer)&&(char_answer<='Z')){
+                    cap = 1; // caps : 1
+                    break;
+                }
+                printf("Input the alphabet again\n");
+            }
+            for (int i = 0; i<len_nation; i++){
+                if ((cap == 0)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 0)&&(char_answer-32 == problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&(char_answer+32==problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+            }
+            if (right == 0){
+                count++;
+            }
+            right = 0;
+            score(nothing, count);
+            for (int i = 0; i<len_answer; i++){
+                printf("%c", answer[i]);
+            }
+            printf("\n");
+            if (strcmp(answer, problem) == 0){
+                printf("★★★ YOU WIN ★★★\n");
+                break;
+            }
+            if (count == 6){
+                printf("You lost. Try again\n");
+                break;
+            }
+        }
+    }
+    else if (select == 3){
+        num = rand()%len_fruit;
+        len_answer = strlen(fruit[num]);
+        for (int i = 0; i<len_answer; i++){
+            problem[i] = fruit[num][i];
+        }
+        problem[len_answer] = NULL;
+        answer = (int*)malloc(sizeof(int)*len_answer)+1;
+        answer[len_answer] = NULL;
+        for (int i = 0; i<len_answer; i++){
+            answer[i] = '_';
+        }
+        while(1){
+            printf("Input an alphabet\n");
+            while (1){
+                scanf(" %c", &char_answer);
+                if (('a'<=char_answer)&&(char_answer<='z')){
+                    cap = 0; 
+                    break;
+                }
+                if (('A'<=char_answer)&&(char_answer<='Z')){
+                    cap = 1; // caps : 1
+                    break;
+                }
+                printf("Input the alphabet again\n");
+            }
+            for (int i = 0; i<len_fruit; i++){
+                if ((cap == 0)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&problem[i] == char_answer){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 0)&&(char_answer-32 == problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+                else if ((cap == 1)&&(char_answer+32==problem[i])){
+                    answer[i] = problem[i];
+                    right = 1;
+                }
+            }
+            if (right == 0){
+                count++;
+            }
+            right = 0;
+            score(nothing, count);
+            for (int i = 0; i<len_answer; i++){
+                printf("%c", answer[i]);
+            }
+            printf("\n");
+            if (strcmp(answer, problem) == 0){
+                printf("★★★ YOU WIN ★★★\n");
+                break;
+            }
+            if (count == 6){
+                printf("You lost. Try again\n");
+                break;
+            }
+        }
+    }
+    else{
+        printf("input the number again\n");
+        return 0;
+    }
+    
 }
 void score(char nothing, int count){
     if (count == 0){
@@ -596,8 +607,8 @@ void score(char nothing, int count){
 //main
 int main()
 {
-    const char game_names[4][20] = {"connect four", "number baseball", "gomoku", "tic-tac-toe"}; //in case, let it as a const array, not hard-coded string.
-    const int game_count = 4;
+    const char game_names[5][20] = {"connect four", "number baseball", "gomoku", "tic-tac-toe", "hang man"}; //in case, let it as a const array, not hard-coded string.
+    const int game_count = 5;
     char sys = '2'; //for use of system("clear")
     do //check if user uses windwos or Unix.
     {
@@ -636,6 +647,9 @@ int main()
             break;
         case '4':
             tic_tac_toe();
+            break;
+        case '5':
+            hangman();
             break;
         default:
             printf("You typed a wrong number! Please try again!\n");
