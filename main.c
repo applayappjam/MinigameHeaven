@@ -544,7 +544,7 @@ int hangman(){
         printf("input the number again\n");
         return 0;
     }
-    
+    return 0;
 }
 void score(char nothing, int count){
     if (count == 0){
@@ -586,7 +586,7 @@ void score(char nothing, int count){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
         printf(" /|\\  │\n");
-        printf(" / %c  │\n",nothing;
+        printf(" / %c  │\n",nothing);
         printf("      ┴\n");
     }
     else if (count == 6){
