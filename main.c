@@ -12,7 +12,188 @@ void tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
-void connect_four(); //asas6978
+
+#include "connect_four_proto.h"
+void connect_four(){
+    while(res==-1){
+        showInfo();
+        choosePosit();
+
+        check_count();
+        check_first_cross();
+        check_second_cross();
+        check_width();
+        check_height();
+        
+        cnt++;
+    }
+    return;
+}
+
+//show Board's condition
+void printBoard(){
+    printf("    ");
+    for(int i=0;i<7;i++) printf("%d ", i);
+    printf("\n\n");
+
+    for(int i=0;i<6;i++){
+        printf("%d   ", i);
+        for(int j=0;j<7;j++) printf("%d ", board[i][j]);
+        printf("\n");
+    }
+    
+}
+
+//show info to player and input value
+void showInfo(){
+    printf("Content '0' means empty, '1' means player's stone, '2' means computer's stone.\n\n");
+    printBoard();
+    printf("\nEnter row's num: ");
+    scanf("%d", &row); 
+    printf("Enter column's num: ");
+    scanf("%d", &column);
+    printf("\n");
+    checkRightInput(row, column);
+}
+
+
+//check player's right input
+void checkRightInput(int row, int column){
+    if((row !=5 && board[row+1][column]==0) || board[row][column]!=0 || row<0 || row>5 || column<0 || column>6){
+        printf("It's a wrong input!\n\n");
+        showInfo();
+    }
+
+    else{
+        inputPlayer(row, column);
+    }
+}
+
+
+//input player's position on board
+void inputPlayer(int row, int column){ 
+    board[row][column] = 1;
+}
+
+
+//choose computer's position on board
+void choosePosit(){
+    int rand_row = rand() % 6, rand_col = rand() % 7;
+    srand(time(NULL));
+    while((rand_row!=5 && board[rand_row+1][rand_col]==0) || board[rand_row][rand_col]!=0){
+        rand_row = rand() % 6, rand_col = rand() % 7;
+    }
+    inputComputer(rand_row, rand_col);
+}
+
+
+//input computer's position on board
+void inputComputer(int _row, int _column){
+    board[_row][_column] = 2;
+}
+
+//check number of stones on board
+void check_count(){
+    if(cnt==21){
+        res = 0;
+        showResult(res);
+    }
+}
+
+//check whether completed 4 stones
+void check_first_cross(){
+    for(int l=0;l<4;l++){
+        for(int k=0;k<3;k++){
+            if(board[5-k][0+l] == board[4-k][1+l] && board[4-k][1+l] == board[3-k][2+l] && board[3-k][2+l] == board[2-k][3+l] && board[2-k][3+l] == ply){
+                res=1;
+                showResult(res);
+            }
+
+            else if(board[5-k][0+l] == board[4-k][1+l] && board[4-k][1+l] == board[3-k][2+l] && board[3-k][2+l] == board[2-k][3+l] && board[2-k][3+l] == cpt){
+                res=2;
+                showResult(res);
+            }
+        }
+    } 
+}
+
+//check whether completed 4 stones
+void check_second_cross(){
+    for(int l=0;l<4;l++){
+        for(int k=0;k<3;k++){
+            if(board[5-k][6-l] == board[4-k][5-l] && board[4-k][5-l] == board[3-k][4-l] && board[3-k][4-l] == board[2-k][3-l] && board[2-k][3-l] == ply){
+                res=1;
+                showResult(res);
+            }
+            
+            else if(board[5-k][6-l] == board[4-k][5-l] && board[4-k][5-l] == board[3-k][4-l] && board[3-k][4-l] == board[2-k][3-l] && board[2-k][3-l] == cpt){
+                res=2;
+                showResult(res);
+            }
+        }
+    }
+}
+
+//check whether completed 4 stones
+void check_width(){
+    for(int j=5;j>=0;--j){
+        for(int i=0;i<4;i++){
+            if(board[j][0+i] == board[j][1+i] && board[j][1+i] == board[j][2+i] && board[j][2+i] == board[j][3+i] && board[j][3+i] == ply){
+                res=1;
+                showResult(res);
+            } 
+
+            else if(board[j][0+i] == board[j][1+i] && board[j][1+i] == board[j][2+i] && board[j][2+i] == board[j][3+i] && board[j][3+i] == cpt){
+                res=2;
+                showResult(res);
+            }
+        }
+    }
+}
+
+//check whether completed 4 stones
+void check_height(){
+    for(int i=0;i<7;i++){
+        for(int j=5;j>=3;--j){
+            if(board[j][i] == board[j-1][i] && board[j-1][i] == board[j-2][i] && board[j-2][i] == board[j-3][i] && board[j-3][i] == ply){
+                res=1;
+                showResult(res);
+            }
+
+           else if(board[j][i] == board[j-1][i] && board[j-1][i] == board[j-2][i] && board[j-2][i] == board[j-3][i] && board[j-3][i] == cpt){
+                res=2;
+                showResult(res);
+            }
+        }
+    }
+}
+
+
+//show winnner
+void showResult(int result){
+    switch(result){
+        case 0:
+            printf("Cannot determine winner.\n");
+            printf("\n--------Result--------\n\n");
+            printBoard();
+            connect_four();
+            break;
+
+        case 1:
+            printf("Winner is player, You win!\n");
+            printf("\n--------Result--------\n\n");
+            printBoard();
+            connect_four();
+            break;
+
+        case 2:
+            printf("Winner is computer, You lose!.\n");
+            printf("\n--------Result--------\n\n");
+            printBoard();
+            connect_four();
+            break;
+    }
+}
 
 void num_baseball(); //jinnyfruit
 
