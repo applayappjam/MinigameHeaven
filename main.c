@@ -158,7 +158,6 @@ int tic_tac_toe() //jj052
     else if (start == 2){
         printf("you're starting second!\n");
          while(1){
-            usleep(1000000);
             while(1){
                 the_opponent[n] = rand()%9;
                 if (index[the_opponent[n]]==' '){
