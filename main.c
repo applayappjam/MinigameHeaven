@@ -503,7 +503,6 @@ int hangman(){
     "Slovakia","Slovenia","Somalia","Spain","Sudan","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania",
     "Thailand","Togo","Tonga","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","USA","Uruguay","Uzbekistan", "Vanuatu",
     "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"}};
-    char nothing = ' ';
     int count = 0;
     printf("Game start!\n");
     score(0);
