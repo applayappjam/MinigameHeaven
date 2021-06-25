@@ -12,22 +12,25 @@ int tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
-void connect_four(){} //asas6978
+void connect_four(); //asas6978
 
-void num_baseball(){} //jinnyfruit
+void num_baseball(); //jinnyfruit
 
-void gomoku(){} // Tuna
+void gomoku(); // Tuna
 
 int checking_the_winner(char index[], int size);
-void score(char nothing, int count);
+void score(int count);
 int checking_duplicated(char index[], int size, int num);
+void show_tic_tac_toe_board(char index[9]);
 int tic_tac_toe() //jj052
 {
+    //initialisation
     srand(time(NULL));
     char index[9]; // 'O', 'X' or ' '
     for (int i = 0; i<9; i++){
         index[i] = ' ';
     }
+    //variables
     int start;
     int my_turn[5];
     int the_opponent[5];
@@ -37,8 +40,80 @@ int tic_tac_toe() //jj052
     int m = 0;// my turn
     int n = 0; // my turn
     int size = 9; // size of the board
-    int win; // who's winning
+    int win = 0; // who's winning
     int num;
+
+    show_tic_tac_toe_board(index);
+    printf("1 is for starting first, 2 is for starting second\n");
+    scanf("%d", &start);
+    if (start == 1 ){
+        printf("you're starting first! input a number 1-9 \n\n");
+        scanf("%d", &my_turn[m]);
+        index[my_turn[m]-1] = 'O';
+        show_tic_tac_toe_board(index);
+        m++;
+    }
+    else {
+        printf("you're starting second!\n");
+    }
+     while(1){
+        while(1){
+            the_opponent[n] = rand()%9;
+            if (index[the_opponent[n]]==' '){
+                break;
+            }
+        }
+        index[the_opponent[n]] = 'X';
+        printf("The opponent : %d\n", the_opponent[n]+1);
+        show_tic_tac_toe_board(index);
+        win = checking_the_winner(index, size);
+        if (win != 0){
+            show_tic_tac_toe_board(index);
+            switch(win)
+            {
+            case 1:
+                printf("★★★★ You win! ★★★★\n");
+                break;
+            case 2:
+                printf("You lose Try again!\n");
+                break;
+            case 3:
+                printf("It's a tie! Try again\n");
+                break;
+            }
+            break;
+        }
+        n++;
+        printf("\nIt's your turn!\n");
+        while(1){
+            scanf("%d", &my_turn[m]);
+            if (checking_duplicated(index, size, my_turn[m]-1) == 1){// the index doesn't exist
+                break;
+            }
+            printf("input the number again\n");
+        }
+        index[my_turn[m]-1] = 'O';
+        win = checking_the_winner(index, size);
+        if (win != 0){
+            show_tic_tac_toe_board(index);
+            switch(win)
+            {
+            case 1:
+                printf("★★★★ You win! ★★★★\n");
+                break;
+            case 2:
+                printf("You lose Try again!\n");
+                break;
+            case 3:
+                printf("It's a tie! Try again\n");
+                break;
+            }
+            break;
+        }
+    }
+    return 0;
+}
+void show_tic_tac_toe_board(char index[9]){
     printf("┌────┬────┬────┐\n");
     printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
     printf("├────┼────┼────┤\n");
@@ -46,223 +121,8 @@ int tic_tac_toe() //jj052
     printf("├────┼────┼────┤\n");
     printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
     printf("└────┴────┴────┘\n");
-    printf("1 is for starting first, 2 is for starting second\n");
-    scanf("%d", &start);
-    if (start == 1 ){
-        printf("you're starting first! input a number 1-9 \n\n");
-        scanf("%d", &my_turn[m]);
-        index[my_turn[m]-1] = 'O';
-        printf("┌────┬────┬────┐\n");
-        printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-        printf("├────┼────┼────┤\n");
-        printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-        printf("├────┼────┼────┤\n");
-        printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-        printf("└────┴────┴────┘\n");
-        m++;
-        while(1){
-            while(1){
-                the_opponent[n] = rand()%9;
-                if (index[the_opponent[n]]==' '){
-                    break;
-                }
-            }
-            index[the_opponent[n]] = 'X';
-            printf("The opponent : %d\n", the_opponent[n]+1);
-            printf("┌────┬────┬────┐\n");
-            printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-            printf("├────┼────┼────┤\n");
-            printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-            printf("├────┼────┼────┤\n");
-            printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-            printf("└────┴────┴────┘\n");
-            win = checking_the_winner(index, size);
-            if (win == 1){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("★★★★ You win! ★★★★\n");
-                return 0;
-            }
-            if (win == 2){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("You lose Try again!\n");
-                return 0;
-            }
-            if (win == 3){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("It's a tie! Try again\n");
-                return 0;
-            }
-            n++;
-            printf("\nIt's your turn!\n");
-            while(1){
-                scanf("%d", &my_turn[m]);
-                if (checking_duplicated(index, size, my_turn[m]-1) == 1){// the index doesn't exist
-                    break;
-                }
-                printf("input the number again\n");
-            }            
-            index[my_turn[m]-1] = 'O';
-            printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-            win = checking_the_winner(index, size);
-            if (win == 1){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("★★★★ You win! ★★★★\n");
-                return 0;
-            }
-            if (win == 2){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("You lost! Try again!\n");
-                return 0;
-            }
-            if (win == 3){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("It's a tie! Try again\n");
-                return 0;
-            }
-        }
-    }
-    else if (start == 2){
-        printf("you're starting second!\n");
-         while(1){
-            while(1){
-                the_opponent[n] = rand()%9;
-                if (index[the_opponent[n]]==' '){
-                    break;
-                }
-            }
-            index[the_opponent[n]] = 'X';
-            printf("The opponent : %d\n", the_opponent[n]+1);
-            printf("┌────┬────┬────┐\n");
-            printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-            printf("├────┼────┼────┤\n");
-            printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-            printf("├────┼────┼────┤\n");
-            printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-            printf("└────┴────┴────┘\n");
-            win = checking_the_winner(index, size);
-            if (win == 1){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("★★★★ You win! ★★★★\n");
-                break;
-            }
-            if (win == 2){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("You lose Try again!\n");
-                break;
-            }
-            if (win == 3){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("It's a tie! Try again\n");
-                return 0;
-            }
-            n++;
-            printf("\nIt's your turn!\n");
-            while(1){
-                scanf("%d", &my_turn[m]);
-                if (checking_duplicated(index, size, my_turn[m]-1) == 1){// the index doesn't exist
-                    break;
-                }
-                printf("input the number again\n");
-            }            
-            index[my_turn[m]-1] = 'O';
-            win = checking_the_winner(index, size);
-            if (win == 1){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("★★★★ You win! ★★★★\n");
-                return 0;
-            }
-            if (win == 2){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("You lost! Try again!\n");
-                return 0;
-            }
-            if (win == 3){
-                printf("┌────┬────┬────┐\n");
-                printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
-                printf("├────┼────┼────┤\n");
-                printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
-                printf("└────┴────┴────┘\n");
-                printf("It's a tie! Try again\n");
-                return 0;
-            }
-        }
-    }
-    return 0;
 }
+
 int checking_the_winner(char index[], int size){
     if(((index[0] == 'O')&&(index[0]==index[1])&&(index[1]==index[2]))
     ||((index[3] == 'O')&&(index[3]==index[4])&&(index[4]==index[5]))
@@ -303,14 +163,13 @@ int checking_duplicated(char index[], int size, int num){
     return 0;
 }
 
-
-
-
-
 int hangman(){
     srand(time(NULL));
     int select;
-    char animal[300][20] = {"elephant", "chicken", "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope","Ape","Aphid",
+    int len_animal = 142;
+    int len_fruit = 40;
+    int len_nation = 162;
+    char problems[3][300][20] = {{"elephant", "chicken", "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope","Ape","Aphid",
     "Armadillo","Asp","Baboon","Badger","Eagle","Barracuda","Bass","Basset Hound","Bat","Bear","Beaver","Bedbug","Bee","Beetle",
     "Bird","Bison","Whale","Bobcat","Buffalo","Butterfly","Buzzard","Camel","Caribou","Carp","Cat","Caterpillar","Catfish","Cheetah","Chicken",
     "Chimpanzee","Chipmunk","Cobra","Cod","Condor","Cougar","Cow","Coyote","Crab","Crane","Cricket","Crocodile","Crow","Cuckoo","Deer","Dinosaur",
@@ -320,14 +179,12 @@ int hangman(){
     "Monkey","Moose","Mosquito","Moth","Mountain goat","Mouse","Mule","Octopus","Orca","Ostrich","Otter","Owl","Ox","Oyster","Panda",
     "Parrot","Peacock","Pelican","Penguin","Perch","Pheasant","Pig","Pigeon","Polar bear","Porcupine","Quail","Rabbit","Raccoon",
     "Rat","Rattlesnake","Raven","Rooster","Sheep","Shrew","Skunk","Snail","Snake","Spider","Tiger","Walrus","Whale","Wolf","Zebra", "Giraffe",
-    "Mole"};
-    int len_animal = 142;
-    char fruit[300][20] = {"Apple","Apricot","Avocado","Banana","Blackberry","Blueberry","Cherry","Coconut","Cucumber","Durian","Dragonfruit",
+    "Mole"},
+    {"Apple","Apricot","Avocado","Banana","Blackberry","Blueberry","Cherry","Coconut","Cucumber","Durian","Dragonfruit",
     "Fig","Gooseberry","Grape","Guava","Jackfruit","Plum","Kiwifruit","Kumquat","Lemon","Lime","Mango","Watermelon","Mulberry","Orange",
     "Papaya","Passionfruit","Peach","Pear","Persimmon","Pineapple","Pineberry","Quince","Raspberry","Soursop","Strawberry","Tamarind",
-    "Yuzu", "kiwi", "pineapple"};
-    int len_fruit = 40;
-    char nation[200][20] = {"Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
+    "Yuzu", "kiwi", "pineapple"},
+    {"Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
     "Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia", "Botswana","Brazil",
     "Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia","Comoros","Congo","Croatia",
     "Cuba",    "Cyprus","Denmark","Djibouti","Dominica","Ecuador","Egypt","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
@@ -339,16 +196,11 @@ int hangman(){
     "Peru","Philippines","Poland","Portugal","Qatar", "Romania","Russia","Rwanda","Samoa","Senegal","Serbia","Seychelles","Singapore",
     "Slovakia","Slovenia","Somalia","Spain","Sudan","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania",
     "Thailand","Togo","Tonga","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","USA","Uruguay","Uzbekistan", "Vanuatu",
-    "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"};
-    int len_nation = 162;
+    "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"}};
     char nothing = ' ';
-    printf("Game start!\n");
-    printf("  ┌───┐\n");
-    printf("  %c   │\n", nothing );
-    printf(" %c%c%c  │\n",nothing,nothing,nothing );
-    printf(" %c %c  │\n",nothing,nothing);
-    printf("      ┴\n");
     int count = 0;
+    printf("Game start!\n");
+    score(0);
     int num;
     char problem[20];
     char *answer;
@@ -359,196 +211,105 @@ int hangman(){
     scanf("%d", &select);
     if (select == 1){
         num = rand()%len_animal;
-        len_answer = strlen(animal[num]);
-        for (int i = 0; i<len_answer; i++){
-            problem[i] = animal[num][i];
-        }
-        problem[len_answer] = 0;
-        answer = (char*)malloc(sizeof(char)*len_answer+1);
-        answer[len_answer] = 0;
-        for (int i = 0; i<len_answer; i++){
-            answer[i] = '_';
-        }
-        while(1){
-            printf("Input an alphabet\n");
-            while (1){
-                scanf(" %c", &char_answer);
-                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
-                    break;
-                }
-                printf("Input the alphabet again\n");
-            }
-            right = 0;
-            printf(" %c", char_answer);
-            for (int i = 0; i<len_animal; i++){
-                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-            }
-            if (right == 0){
-                count++;
-            }
-            printf("%d  %d\n\n", right , count);
-            right = 0;
-            score(nothing, count);
-            for (int i = 0; i<len_answer; i++){
-                printf("%c", answer[i]);
-            }
-            printf("\n");
-            if (strcmp(answer, problem) == 0){
-                printf("★★★ YOU WIN ★★★\n");
-                break;
-            }
-            if (count == 6){
-                printf("You lost. Try again\n");
-                printf("The answer is \"%s\"\n", problem);
-                break;
-             }
-        }
     }
     else if (select == 2){
         num = rand()%len_nation;
-        len_answer = strlen(nation[num]);
-        for (int i = 0; i<len_answer; i++){
-            problem[i] = nation[num][i];
-        }
-        problem[len_answer] = 0;
-        answer = (char*)malloc(sizeof(char)*len_answer+1);
-        answer[len_answer] = 0;
-        for (int i = 0; i<len_answer; i++){
-            answer[i] = '_';
-        }//animal
-        while (1){
-            while(1){
-                scanf(" %c", &char_answer);
-                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
-                    break;
-                }
-                printf("Input the alphabet again\n");
-            }
-            right = 0;
-            printf(" %c", char_answer);
-            for (int i = 0; i<len_animal; i++){
-                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-            }
-            if (right == 0){
-                count++;
-            }
-            right = 0;
-            score(nothing, count);
-            printf("%s", answer);
-            printf("\n");
-            if (strcmp(answer, problem) == 0){
-                printf("★★★ YOU WIN ★★★\n");
-                break;
-            }
-            if (count == 6){
-                printf("You lost. Try again\n");
-                printf("The answer is \"%s\"", problem);
-                break;
-            }
-        }
     }
     else if (select == 3){
         num = rand()%len_fruit;
-        len_answer = strlen(fruit[num]);
-        for (int i = 0; i<len_answer; i++){
-            problem[i] = fruit[num][i];
-        }
-        problem[len_answer] = 0;
-        answer = (char*)malloc(sizeof(char)*len_answer+1);
-        answer[len_answer] = 0;
-        for (int i = 0; i<len_answer; i++){
-            answer[i] = '_';
-        }
-        while(1){
-            printf("Input an alphabet\n");
-            while (1){
-                scanf(" %c", &char_answer);
-                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
-                    break;
-                }
-                printf("Input the alphabet again\n");
-            }
-            right = 0;
-            printf(" %c", char_answer);
-            for (int i = 0; i<len_animal; i++){
-                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-            }
-            if (right == 0){
-                count++;
-            }
-            right = 0;
-            score(nothing, count);
-            for (int i = 0; i<len_answer; i++){
-                printf("%c", answer[i]);
-            }
-            printf("\n");
-            if (strcmp(answer, problem) == 0){
-                printf("★★★ YOU WIN ★★★\n");
-                break;
-            }
-            if (count == 6){
-                printf("You lost. Try again\n");
-                printf("The answer is \"%s\"", problem);
-                break;
-            }
-        }
     }
     else{
         printf("input the number again\n");
         return 0;
     }
+    len_answer = strlen(problems[select - 1][num]);
+    strcpy(problem, problems[select - 1][num]);
+    problem[len_answer] = 0;
+    answer = (char*)malloc(sizeof(char)*len_answer+1);
+    answer[len_answer] = 0;
+    for (int i = 0; i<len_answer; i++){
+        answer[i] = '_';
+    }
+    while(1){
+        printf("Input an alphabet\n");
+        while (1){
+            scanf(" %c", &char_answer);
+            if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
+                break;
+            }
+            printf("Input the alphabet again\n");
+        }
+        right = 0;
+        printf(" %c", char_answer);
+        for (int i = 0; i<len_answer; i++){
+            if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
+                answer[i] = problem[i];
+                right = 1;
+            }
+        }
+        if (right == 0){
+            count++;
+        }
+        printf("%d  %d\n\n", right , count);
+        right = 0;
+        score(count);
+        for (int i = 0; i<len_answer; i++){
+            printf("%c", answer[i]);
+        }
+        printf("\n");
+        if (strcmp(answer, problem) == 0){
+            printf("★★★ YOU WIN ★★★\n");
+            break;
+        }
+        if (count == 6){
+            printf("You lost. Try again\n");
+            printf("The answer is \"%s\"\n", problem);
+            break;
+         }
+    }
     return 0;
 }
-void score(char nothing, int count){
+void score(int count){
     if (count == 0){
         printf("  ┌───┐\n");
-        printf("  %c   │\n", nothing);
-        printf(" %c%c%c  │\n",nothing,nothing,nothing );
-        printf(" %c %c  │\n",nothing,nothing);
+        printf("      │\n");
+        printf("      │\n");
+        printf("      │\n");
         printf("      ┴\n");
     }
     else if (count == 1){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" %c%c%c  │\n",nothing,nothing,nothing );
-        printf(" %c %c  │\n",nothing,nothing);
+        printf("      │\n");
+        printf("      │\n");
         printf("      ┴\n");
     }
     else if (count == 2){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" %c|%c  │\n",nothing,nothing );
-        printf(" %c %c  │\n",nothing,nothing);
+        printf("  |   │\n");
+        printf("      │\n");
         printf("      ┴\n");
     }
     else if (count == 3){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
-        printf(" /|%c  │\n",nothing );
-        printf(" %c %c  │\n",nothing,nothing);
+        printf(" /|   │\n");
+        printf("      │\n");
         printf("      ┴\n");
     }
     else if (count == 4){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
         printf(" /|\\  │\n");
-        printf(" %c %c  │\n",nothing,nothing);
+        printf("      │\n");
         printf("      ┴\n");
     }
     else if (count == 5){
         printf("  ┌───┐\n");
         printf("  ○   │\n");
         printf(" /|\\  │\n");
-        printf(" / %c  │\n",nothing);
+        printf(" /    │\n");
         printf("      ┴\n");
     }
     else if (count == 6){
