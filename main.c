@@ -334,6 +334,7 @@ int hangman(){
     "Thailand","Togo","Tonga","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","USA","Uruguay","Uzbekistan", "Vanuatu",
     "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"};
     int len_nation = 162;
+    char nothing = ' ';
     printf("Game start!\n");
     printf("  ┌───┐\n");
     printf("  %c   │\n", nothing );
@@ -343,7 +344,7 @@ int hangman(){
     int count = 0;
     int num;
     char problem[20];
-    char answer;
+    char *answer;
     int len_answer;
     char char_answer;
     int right = 0;
