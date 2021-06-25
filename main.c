@@ -32,47 +32,46 @@ void connect_four(){
 
 //show Board's condition
 void printBoard(){
-    printf("    ");
     for(int i=0;i<7;i++) printf("%d ", i);
     printf("\n\n");
 
     for(int i=0;i<6;i++){
-        printf("%d   ", i);
         for(int j=0;j<7;j++) printf("%d ", board[i][j]);
         printf("\n");
     }
-    
+
+    printf("\n");
 }
 
 //show info to player and input value
 void showInfo(){
-    printf("Content '0' means empty, '1' means player's stone, '2' means computer's stone.\n\n");
+    printf("\n\nContent '0' means empty, '1' means player's stone, '2' means computer's stone.\n\n");
     printBoard();
-    printf("\nEnter row's num: ");
-    scanf("%d", &row); 
     printf("Enter column's num: ");
     scanf("%d", &column);
     printf("\n");
-    checkRightInput(row, column);
+    checkRightInput(column);
 }
 
 
 //check player's right input
-void checkRightInput(int row, int column){
-    if((row !=5 && board[row+1][column]==0) || board[row][column]!=0 || row<0 || row>5 || column<0 || column>6){
+void checkRightInput(int column){
+    if(board[0][column]!=0 || column<0 || column>6){
         printf("It's a wrong input!\n\n");
         showInfo();
     }
 
     else{
-        inputPlayer(row, column);
+        inputPlayer(column);
     }
 }
 
 
 //input player's position on board
-void inputPlayer(int row, int column){ 
-    board[row][column] = 1;
+void inputPlayer(int column){
+    int i=5;
+    while(board[i][column]!=0) i--;
+    board[i][column] = 1;
 }
 
 
