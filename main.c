@@ -304,16 +304,16 @@ int main()
             printf("Thanks for playing! Hope to see you soon!\n");
             return 0;
         case '1':
-           // connect_four();
+            connect_four();
             break;
         case'2':
-            //num_baseball();
+            num_baseball();
             break;
         case '3':
             gomoku();
             break;
         case '4':
-            //tic_tac_toe();
+            tic_tac_toe();
             break;
         default:
             printf("You typed a wrong number! Please try again!\n");
