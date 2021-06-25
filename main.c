@@ -348,25 +348,19 @@ void draw_table()
 
     printf("   A B C D E F G H I J K L M N O P Q R S\n");
 
-        unsigned char a = 0xa6;
-        unsigned char b[12];
-
-        for (i = 1; i < 12; i++)
-            b[i] = 0xa0 + i;
-
         if(table[0][0] == 0)
-            printf("0  %c%c ", a, b[3]);
+            printf("0  + ");
         else
             printf("0  %c", stone[table[0][0]-1]);
 
         for (i = 1; i < c; i++)
             if(table[0][i] == 0)
-                printf("%c%c ",a, b[8]);
+                printf("+ ");
             else
                 printf("%c ", stone[table[0][i]-1]);
 
         if(table[0][18] == 0)
-            printf("%c%c \n", a, b[4]);
+            printf("+ \n");
         else
             printf("%c ", stone[table[0][18]-1]);
 
@@ -375,40 +369,40 @@ void draw_table()
         {
             if(i>9)
                 if(table[i][0] == 0)
-                    printf("%d %c%c ", i, a, b[7]);
+                    printf("%d + ", i);
                 else
                     printf("%d %c ", i, stone[table[i][0]-1]);
             else
                 if(table[i][0] == 0)
-                    printf("%d  %c%c ", i, a, b[7]);
+                    printf("%d  + ", i);
                 else
                     printf("%d  %c ", i, stone[table[i][0]-1]);
 
             for (j = 1; j < c; j++)
                 if(table[i][j] == 0)
-                    printf("%c%c ",a, b[11]);
+                    printf("+ ");
                 else
                     printf("%c ", stone[table[i][j]-1]);
 
             if(table[i][18] == 0)
-                printf("%c%c \n", a, b[9]);
+                printf("+ \n");
             else
                 printf("%c \n",stone[table[i][18]-1]);
         }
 
         if(table[18][0] == 0)
-            printf("18 %c%c ", a, b[6]);
+            printf("18 + ");
         else
             printf("18 %c ",stone[table[18][0]-1]);
 
         for (i = 1; i < c; i++)
             if(table[18][i] == 0)
-                printf("%c%c ", a, b[10]);
+                printf("+ ");
             else
                 printf("%c ",stone[table[18][i]-1]);
 
         if(table[18][18] == 0)
-            printf("%c%c\n", a, b[5]);
+            printf("+\n");
         else
             printf("%c ",stone[table[18][18]-1]);
 }
