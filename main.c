@@ -512,15 +512,15 @@ int hangman(){
     int len_answer;
     char char_answer;
     int right = 0;
-    printf("1 for Animals, 2 for nations, 3 for fruits Select 1-3\n");
+    printf("1 for Animals, 2 for fruits, 3 for nations Select 1-3\n");
     scanf("%d", &select);
     if (select == 1){
         num = rand()%len_animal;
     }
-    else if (select == 2){
+    else if (select == 3){
         num = rand()%len_nation;
     }
-    else if (select == 3){
+    else if (select == 2){
         num = rand()%len_fruit;
     }
     else{
@@ -535,6 +535,7 @@ int hangman(){
     for (int i = 0; i<len_answer; i++){
         answer[i] = '_';
     }
+    printf("%s\n", answer);
     while(1){
         printf("Input an alphabet\n");
         while (1){
@@ -570,7 +571,7 @@ int hangman(){
             printf("You lost. Try again\n");
             printf("The answer is \"%s\"\n", problem);
             break;
-         }
+        }
     }
     return 0;
 }
