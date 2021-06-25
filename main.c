@@ -8,7 +8,7 @@
 void connect_four(); //asas6978
 void num_baseball(); //jinnyfruit
 void gomoku(); // Tuna
-void tic_tac_toe(); //jj0526
+int tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
