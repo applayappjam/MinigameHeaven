@@ -12,11 +12,11 @@ int tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
-void connect_four(); //asas6978
+void connect_four(){} //asas6978
 
-void num_baseball(); //jinnyfruit
+void num_baseball(){} //jinnyfruit
 
-void gomoku(); // Tuna
+void gomoku(){} // Tuna
 
 int checking_the_winner(char index[], int size);
 void score(char nothing, int count);
@@ -355,7 +355,6 @@ int hangman(){
     int len_answer;
     char char_answer;
     int right = 0;
-    int cap;
     printf("1 for Animals, 2 for nations, 3 for fruits Select 1-3\n");
     scanf("%d", &select);
     if (select == 1){
@@ -374,30 +373,15 @@ int hangman(){
             printf("Input an alphabet\n");
             while (1){
                 scanf(" %c", &char_answer);
-                if (('a'<=char_answer)&&(char_answer<='z')){
-                    cap = 0; 
-                    break;
-                }
-                if (('A'<=char_answer)&&(char_answer<='Z')){
-                    cap = 1; // caps : 1
+                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
                     break;
                 }
                 printf("Input the alphabet again\n");
             }
+            right = 0;
+            printf(" %c", char_answer);
             for (int i = 0; i<len_animal; i++){
-                if ((cap == 0)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                right = 1;
-                }
-                else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&(char_answer+32==problem[i])){
+                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
                     answer[i] = problem[i];
                     right = 1;
                 }
@@ -405,6 +389,7 @@ int hangman(){
             if (right == 0){
                 count++;
             }
+            printf("%d  %d\n\n", right , count);
             right = 0;
             score(nothing, count);
             for (int i = 0; i<len_answer; i++){
@@ -434,34 +419,18 @@ int hangman(){
         for (int i = 0; i<len_answer; i++){
             answer[i] = '_';
         }//animal
-        while(1){
-            printf("Input an alphabet\n");
-            while (1){
+        while (1){
+            while(1){
                 scanf(" %c", &char_answer);
-                if (('a'<=char_answer)&&(char_answer<='z')){
-                    cap = 0; 
-                    break;
-                }
-                if (('A'<=char_answer)&&(char_answer<='Z')){
-                    cap = 1; // caps : 1
+                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
                     break;
                 }
                 printf("Input the alphabet again\n");
             }
-            for (int i = 0; i<len_nation; i++){
-                if ((cap == 0)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&(char_answer+32==problem[i])){
+            right = 0;
+            printf(" %c", char_answer);
+            for (int i = 0; i<len_animal; i++){
+                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
                     answer[i] = problem[i];
                     right = 1;
                 }
@@ -500,30 +469,15 @@ int hangman(){
             printf("Input an alphabet\n");
             while (1){
                 scanf(" %c", &char_answer);
-                if (('a'<=char_answer)&&(char_answer<='z')){
-                    cap = 0; 
-                    break;
-                }
-                if (('A'<=char_answer)&&(char_answer<='Z')){
-                    cap = 1; // caps : 1
+                if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
                     break;
                 }
                 printf("Input the alphabet again\n");
             }
-            for (int i = 0; i<len_fruit; i++){
-                if ((cap == 0)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&problem[i] == char_answer){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 0)&&(char_answer-32 == problem[i])){
-                    answer[i] = problem[i];
-                    right = 1;
-                }
-                else if ((cap == 1)&&(char_answer+32==problem[i])){
+            right = 0;
+            printf(" %c", char_answer);
+            for (int i = 0; i<len_animal; i++){
+                if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
                     answer[i] = problem[i];
                     right = 1;
                 }
