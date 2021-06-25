@@ -11,7 +11,6 @@ void gomoku(); // Tuna
 void tic_tac_toe(); //jj0526
 //ljlee
 
-int count = 1;
 int secreteNum;
 int checkNum;
 int Success_Key = 0;
@@ -21,11 +20,13 @@ void check(int, int);
 void connect_four(); //asas6978
 
 void num_baseball(){
-     printf("★Welcome to number baseball game★\n\n");
+    printf("★Welcome to number baseball game★\n\n");
     printf("-> You can predict a three-digit number a total of 9 times.\n");
     printf("-> if the number and digits match, S.\n");
     printf("-> if only the number matches and the number of digits is different, B.\n");
     printf("-> if none of the numbers match, OUT.\n");
+    
+    int count = 1;
 
     srand(time(NULL));
     secreteNum = (rand() % 999) + 100;    //Generate three-digit natural number to match
