@@ -18,6 +18,8 @@ void num_baseball(); //jinnyfruit
 
 void gomoku(); // Tuna
 
+int check(char index[], int size);
+void score(char nothing, int count);
 int tic_tac_toe() //jj052
 {
     srand(time(NULL));
