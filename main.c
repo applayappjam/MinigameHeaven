@@ -8,7 +8,7 @@
 void connect_four(); //asas6978
 void num_baseball(); //jinnyfruit
 void gomoku(); // Tuna
-void tic_tac_toe(); //jj0526
+int tic_tac_toe(); //jj0526
 //ljlee
 
 int secretNum;
@@ -324,13 +324,312 @@ void check(int secretNum, int checkNum){
 
 void gomoku(); // Tuna
 
-void tic_tac_toe(); //jj0526
+int checking_the_winner(char index[], int size);
+void score(int count);
+int checking_duplicated(char index[], int size, int num);
+void show_tic_tac_toe_board(char index[9]);
+int tic_tac_toe() //jj052
+{
+    //initialisation
+    srand(time(NULL));
+    char index[9]; // 'O', 'X' or ' '
+    for (int i = 0; i<9; i++){
+        index[i] = ' ';
+    }
+    //variables
+    int start;
+    int my_turn[5];
+    int the_opponent[5];
+    char a = 'O';
+    char O = 'O';//my turn
+    char X = 'X';// the opponet's
+    int m = 0;// my turn
+    int n = 0; // my turn
+    int size = 9; // size of the board
+    int win = 0; // who's winning
+    int num;
 
+    show_tic_tac_toe_board(index);
+    printf("1 is for starting first, 2 is for starting second\n");
+    scanf("%d", &start);
+    if (start == 1 ){
+        printf("you're starting first! input a number 1-9 \n\n");
+        scanf("%d", &my_turn[m]);
+        index[my_turn[m]-1] = 'O';
+        show_tic_tac_toe_board(index);
+        m++;
+    }
+    else {
+        printf("you're starting second!\n");
+    }
+     while(1){
+        while(1){
+            the_opponent[n] = rand()%9;
+            if (index[the_opponent[n]]==' '){
+                break;
+            }
+        }
+        index[the_opponent[n]] = 'X';
+        printf("The opponent : %d\n", the_opponent[n]+1);
+        show_tic_tac_toe_board(index);
+        win = checking_the_winner(index, size);
+        if (win != 0){
+            show_tic_tac_toe_board(index);
+            switch(win)
+            {
+            case 1:
+                printf("★★★★ You win! ★★★★\n");
+                break;
+            case 2:
+                printf("You lose Try again!\n");
+                break;
+            case 3:
+                printf("It's a tie! Try again\n");
+                break;
+            }
+            break;
+        }
+        n++;
+        printf("\nIt's your turn!\n");
+        while(1){
+            scanf("%d", &my_turn[m]);
+            if (checking_duplicated(index, size, my_turn[m]-1) == 1){// the index doesn't exist
+                break;
+            }
+            printf("input the number again\n");
+        }
+        index[my_turn[m]-1] = 'O';
+        win = checking_the_winner(index, size);
+        if (win != 0){
+            show_tic_tac_toe_board(index);
+            switch(win)
+            {
+            case 1:
+                printf("★★★★ You win! ★★★★\n");
+                break;
+            case 2:
+                printf("You lose Try again!\n");
+                break;
+            case 3:
+                printf("It's a tie! Try again\n");
+                break;
+            }
+            break;
+        }
+    }
+    return 0;
+}
+void show_tic_tac_toe_board(char index[9]){
+    printf("┌────┬────┬────┐\n");
+    printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
+    printf("├────┼────┼────┤\n");
+    printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
+    printf("├────┼────┼────┤\n");
+    printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
+    printf("└────┴────┴────┘\n");
+}
+
+int checking_the_winner(char index[], int size){
+    if(((index[0] == 'O')&&(index[0]==index[1])&&(index[1]==index[2]))
+    ||((index[3] == 'O')&&(index[3]==index[4])&&(index[4]==index[5]))
+    ||((index[6] == 'O')&&(index[6]==index[7])&&(index[7]==index[8]))//garo
+    ||((index[0] == 'O')&&(index[0]==index[3])&&(index[3]==index[6]))
+    ||((index[1] == 'O')&&(index[1]==index[4])&&(index[4]==index[7]))
+    ||((index[2] == 'O')&&(index[2]==index[5])&&(index[5]==index[8]))//sero
+    ||((index[0] == 'O')&&(index[0]==index[4])&&(index[4]==index[8]))
+    ||((index[2] == 'O')&&(index[2]==index[4])&&(index[4]==index[6]))){//daegakseon
+        return 1;
+    }
+    if(((index[0] == 'X')&&(index[0]==index[1])&&(index[1]==index[2]))
+    ||((index[3] == 'X')&&(index[3]==index[4])&&(index[4]==index[5]))
+    ||((index[6] == 'X')&&(index[6]==index[7])&&(index[7]==index[8]))
+    ||((index[0] == 'X')&&(index[0]==index[3])&&(index[3]==index[6]))
+    ||((index[1] == 'X')&&(index[1]==index[4])&&(index[4]==index[7]))
+    ||((index[2] == 'X')&&(index[2]==index[5])&&(index[5]==index[8]))
+    ||((index[0] == 'X')&&(index[0]==index[4])&&(index[4]==index[8]))
+    ||((index[2] == 'X')&&(index[2]==index[4])&&(index[4]==index[6]))){
+        return 2;
+    }
+    int count;
+    for (int i = 0; i<9; i++){
+        if (index[i]!=' '){
+            count++;
+        }
+    }
+    if (count == 9){
+        return 3; // no one won yet
+    }
+    return 0;
+}
+int checking_duplicated(char index[], int size, int num){
+    //num == my_turn[m]
+    if (index[num]==' '){
+        return 1;
+    }
+    return 0;
+}
+
+int hangman(){
+    srand(time(NULL));
+    int select;
+    int len_animal = 142;
+    int len_fruit = 40;
+    int len_nation = 162;
+    char problems[3][300][20] = {{"elephant", "chicken", "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope","Ape","Aphid",
+    "Armadillo","Asp","Baboon","Badger","Eagle","Barracuda","Bass","Basset Hound","Bat","Bear","Beaver","Bedbug","Bee","Beetle",
+    "Bird","Bison","Whale","Bobcat","Buffalo","Butterfly","Buzzard","Camel","Caribou","Carp","Cat","Caterpillar","Catfish","Cheetah","Chicken",
+    "Chimpanzee","Chipmunk","Cobra","Cod","Condor","Cougar","Cow","Coyote","Crab","Crane","Cricket","Crocodile","Crow","Cuckoo","Deer","Dinosaur",
+    "Dog","Dolphin","Donkey","Dove","Dragonfly","Duck","Eagle","Eel","Elephant","Emu","Falcon","Ferret","Finch","Fish","Flamingo",
+    "Flea","Fly","Fox","Frog","Goat","Goose","Gopher","Gorilla","Grasshopper","Hamster","Hare","Hawk","Hippopotamus","Horse",
+    "Hummingbird","Humpback Whale","Husky","Iguana","Impala","Kangaroo","Ladybug","Leopard","Lion","Lizard","Llama","Lobster","Mongoose",
+    "Monkey","Moose","Mosquito","Moth","Mountain goat","Mouse","Mule","Octopus","Orca","Ostrich","Otter","Owl","Ox","Oyster","Panda",
+    "Parrot","Peacock","Pelican","Penguin","Perch","Pheasant","Pig","Pigeon","Polar bear","Porcupine","Quail","Rabbit","Raccoon",
+    "Rat","Rattlesnake","Raven","Rooster","Sheep","Shrew","Skunk","Snail","Snake","Spider","Tiger","Walrus","Whale","Wolf","Zebra", "Giraffe",
+    "Mole"},
+    {"Apple","Apricot","Avocado","Banana","Blackberry","Blueberry","Cherry","Coconut","Cucumber","Durian","Dragonfruit",
+    "Fig","Gooseberry","Grape","Guava","Jackfruit","Plum","Kiwifruit","Kumquat","Lemon","Lime","Mango","Watermelon","Mulberry","Orange",
+    "Papaya","Passionfruit","Peach","Pear","Persimmon","Pineapple","Pineberry","Quince","Raspberry","Soursop","Strawberry","Tamarind",
+    "Yuzu", "kiwi", "pineapple"},
+    {"Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
+    "Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia", "Botswana","Brazil",
+    "Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia","Comoros","Congo","Croatia",
+    "Cuba",    "Cyprus","Denmark","Djibouti","Dominica","Ecuador","Egypt","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
+    "Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia",
+    "Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea","Kosovo","Kuwait","Kyrgyzstan",
+    "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives",
+    "Mali","Malta","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
+    "Namibia","Nauru","Nepal","Netherlands","Nicaragua","Niger","Nigeria","Norway", "Oman", "Pakistan","Palau","Panama","Paraguay",
+    "Peru","Philippines","Poland","Portugal","Qatar", "Romania","Russia","Rwanda","Samoa","Senegal","Serbia","Seychelles","Singapore",
+    "Slovakia","Slovenia","Somalia","Spain","Sudan","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania",
+    "Thailand","Togo","Tonga","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","USA","Uruguay","Uzbekistan", "Vanuatu",
+    "Venezuela","Vietnam", "Yemen", "Zambia", "Zimbabwe"}};
+    int count = 0;
+    printf("Game start!\n");
+    score(0);
+    int num;
+    char problem[20];
+    char *answer;
+    int len_answer;
+    char char_answer;
+    int right = 0;
+    printf("1 for Animals, 2 for nations, 3 for fruits Select 1-3\n");
+    scanf("%d", &select);
+    if (select == 1){
+        num = rand()%len_animal;
+    }
+    else if (select == 2){
+        num = rand()%len_nation;
+    }
+    else if (select == 3){
+        num = rand()%len_fruit;
+    }
+    else{
+        printf("input the number again\n");
+        return 0;
+    }
+    len_answer = strlen(problems[select - 1][num]);
+    strcpy(problem, problems[select - 1][num]);
+    problem[len_answer] = 0;
+    answer = (char*)malloc(sizeof(char)*len_answer+1);
+    answer[len_answer] = 0;
+    for (int i = 0; i<len_answer; i++){
+        answer[i] = '_';
+    }
+    while(1){
+        printf("Input an alphabet\n");
+        while (1){
+            scanf(" %c", &char_answer);
+            if (('a'<=char_answer&&char_answer<='z')||('A'<=char_answer&&char_answer<='Z')){
+                break;
+            }
+            printf("Input the alphabet again\n");
+        }
+        right = 0;
+        printf(" %c", char_answer);
+        for (int i = 0; i<len_answer; i++){
+            if ((problem[i] == char_answer)||(problem[i] == char_answer+32)||(problem[i] == char_answer-32)){
+                answer[i] = problem[i];
+                right = 1;
+            }
+        }
+        if (right == 0){
+            count++;
+        }
+        printf("%d  %d\n\n", right , count);
+        right = 0;
+        score(count);
+        for (int i = 0; i<len_answer; i++){
+            printf("%c", answer[i]);
+        }
+        printf("\n");
+        if (strcmp(answer, problem) == 0){
+            printf("★★★ YOU WIN ★★★\n");
+            break;
+        }
+        if (count == 6){
+            printf("You lost. Try again\n");
+            printf("The answer is \"%s\"\n", problem);
+            break;
+         }
+    }
+    return 0;
+}
+void score(int count){
+    if (count == 0){
+        printf("  ┌───┐\n");
+        printf("      │\n");
+        printf("      │\n");
+        printf("      │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 1){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf("      │\n");
+        printf("      │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 2){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf("  |   │\n");
+        printf("      │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 3){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf(" /|   │\n");
+        printf("      │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 4){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf(" /|\\  │\n");
+        printf("      │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 5){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf(" /|\\  │\n");
+        printf(" /    │\n");
+        printf("      ┴\n");
+    }
+    else if (count == 6){
+        printf("  ┌───┐\n");
+        printf("  ○   │\n");
+        printf(" /|\\  │\n");
+        printf(" / \\  │\n");
+        printf("      ┴\n");
+    }
+}
 //main
 int main()
 {
-    const char game_names[4][20] = {"connect four", "number baseball", "gomoku", "tic-tac-toe"}; //in case, let it as a const array, not hard-coded string.
-    const int game_count = 4;
+    const char game_names[5][20] = {"connect four", "number baseball", "gomoku", "tic-tac-toe", "hang man"}; //in case, let it as a const array, not hard-coded string.
+    const int game_count = 5;
     char sys = '2'; //for use of system("clear")
     do //check if user uses windwos or Unix.
     {
@@ -369,6 +668,9 @@ int main()
             break;
         case '4':
             tic_tac_toe();
+            break;
+        case '5':
+            hangman();
             break;
         default:
             printf("You typed a wrong number! Please try again!\n");
