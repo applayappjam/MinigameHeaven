@@ -12,13 +12,13 @@ int tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
-void connect_four(){} //asas6978
+void connect_four(); //asas6978
 
-void num_baseball(){} //jinnyfruit
+void num_baseball(); //jinnyfruit
 
-void gomoku(){} // Tuna
+void gomoku(); // Tuna
 
-int check(char index[], int size);
+int checking_the_winner(char index[], int size);
 void score(char nothing, int count);
 int checking_duplicated(char index[], int size, int num);
 int tic_tac_toe() //jj052
@@ -76,7 +76,7 @@ int tic_tac_toe() //jj052
             printf("├────┼────┼────┤\n");
             printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
             printf("└────┴────┴────┘\n");
-            win = check(index, size);
+            win = checking_the_winner(index, size);
             if (win == 1){
                 printf("┌────┬────┬────┐\n");
                 printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
@@ -127,7 +127,7 @@ int tic_tac_toe() //jj052
                 printf("├────┼────┼────┤\n");
                 printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
                 printf("└────┴────┴────┘\n");
-            win = check(index, size);
+            win = checking_the_winner(index, size);
             if (win == 1){
                 printf("┌────┬────┬────┐\n");
                 printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
@@ -181,7 +181,7 @@ int tic_tac_toe() //jj052
             printf("├────┼────┼────┤\n");
             printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
             printf("└────┴────┴────┘\n");
-            win = check(index, size);
+            win = checking_the_winner(index, size);
             if (win == 1){
                 printf("┌────┬────┬────┐\n");
                 printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
@@ -225,7 +225,7 @@ int tic_tac_toe() //jj052
                 printf("input the number again\n");
             }            
             index[my_turn[m]-1] = 'O';
-            win = check(index, size);
+            win = checking_the_winner(index, size);
             if (win == 1){
                 printf("┌────┬────┬────┐\n");
                 printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
@@ -263,7 +263,7 @@ int tic_tac_toe() //jj052
     }
     return 0;
 }
-int check(char index[], int size){
+int checking_the_winner(char index[], int size){
     if(((index[0] == 'O')&&(index[0]==index[1])&&(index[1]==index[2]))
     ||((index[3] == 'O')&&(index[3]==index[4])&&(index[4]==index[5]))
     ||((index[6] == 'O')&&(index[6]==index[7])&&(index[7]==index[8]))//garo
@@ -417,7 +417,7 @@ int hangman(){
             }
             if (count == 6){
                 printf("You lost. Try again\n");
-                printf("The answer is \"%s\"", problem);
+                printf("The answer is \"%s\"\n", problem);
                 break;
              }
         }
@@ -471,9 +471,7 @@ int hangman(){
             }
             right = 0;
             score(nothing, count);
-            for (int i = 0; i<len_answer; i++){
-                printf("%c", answer[i]);
-            }
+            printf("%s", answer);
             printf("\n");
             if (strcmp(answer, problem) == 0){
                 printf("★★★ YOU WIN ★★★\n");
