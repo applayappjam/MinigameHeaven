@@ -20,3 +20,8 @@ void gomoku(); // Tuna
 
 void tic_tac_toe(); //jj0526
 
+//main
+int main()
+{
+    //
+}
