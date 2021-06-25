@@ -12,11 +12,11 @@ int tic_tac_toe(); //jj0526
 //ljlee
 
 //function definitions
-void connect_four(); //asas6978
+void connect_four(){} //asas6978
 
-void num_baseball(); //jinnyfruit
+void num_baseball(){} //jinnyfruit
 
-void gomoku(); // Tuna
+void gomoku(){} // Tuna
 
 int check(char index[], int size);
 void score(char nothing, int count);
@@ -39,6 +39,13 @@ int tic_tac_toe() //jj052
     int size = 9; // size of the board
     int win; // who's winning
     int num;
+    printf("┌────┬────┬────┐\n");
+    printf("│ ¹%c │ ²%c │ ³%c │\n",index[0],index[1],index[2]);
+    printf("├────┼────┼────┤\n");
+    printf("│ ⁴%c │ ⁵%c │ ⁶%c │\n",index[3],index[4],index[5]);
+    printf("├────┼────┼────┤\n");
+    printf("│ ⁷%c │ ⁸%c │ ⁹%c │\n",index[6],index[7],index[8]);
+    printf("└────┴────┴────┘\n");
     printf("1 is for starting first, 2 is for starting second\n");
     scanf("%d", &start);
     if (start == 1 ){
@@ -410,6 +417,7 @@ int hangman(){
             }
             if (count == 6){
                 printf("You lost. Try again\n");
+                printf("The answer is \"%s\"", problem);
                 break;
              }
         }
@@ -473,6 +481,7 @@ int hangman(){
             }
             if (count == 6){
                 printf("You lost. Try again\n");
+                printf("The answer is \"%s\"", problem);
                 break;
             }
         }
@@ -536,6 +545,7 @@ int hangman(){
             }
             if (count == 6){
                 printf("You lost. Try again\n");
+                printf("The answer is \"%s\"", problem);
                 break;
             }
         }
