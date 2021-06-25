@@ -20,7 +20,7 @@ void check(int, int);
 void connect_four(); //asas6978
 
 void num_baseball(){
-   printf("★Welcome to number baseball game★\n\n");
+    printf("★Welcome to number baseball game★\n\n");
     printf("-> You can predict a three-digit number a total of 9 times.\n");
     printf("-> if the number and digits match, S.\n");
     printf("-> if only the number matches and the number of digits is different, B.\n");
@@ -30,19 +30,28 @@ void num_baseball(){
     int first;
     int second;
     int third;
+    int value;
 
     srand(time(NULL));
-    secretNum = (rand() % 999) + 100;    //Generate three-digit natural number to match
+    secretNum = (rand() % 899)+ 100;    //Generate three-digit natural number to match
     printf("secrete Num: %d\n", secretNum);
+    value = secretNum;
 
-    first = secretNum / 100;
-    secretNum = secretNum % 100;
-    second = secretNum / 10;
-    third = secretNum % 10;
+    first = value / 100;
+    value = value % 100;
+    second = value / 10;
+    third = value % 10;
 
-    while (first == second && second == third && first == third) {
+    while (first == second || second == third || first == third) {
         secretNum = (rand() % 999) + 100;    
         printf("secrete Num: %d\n", secretNum);
+
+        value = secretNum;
+
+        first = value / 100;
+        value = value % 100;
+        second = value / 10;
+        third = value % 10;
     }
 
     while (count < 10) {
