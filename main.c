@@ -11,7 +11,7 @@ void gomoku(); // Tuna
 void tic_tac_toe(); //jj0526
 //ljlee
 
-int secreteNum;
+int secretNum;
 int checkNum;
 int Success_Key = 0;
 void check(int, int);
@@ -68,7 +68,7 @@ void num_baseball(){
     }
 }
 
-void check(int secreteNum, int checkNum){
+void check(int secretNum, int checkNum){
  int temp;
     int i, j;
 
@@ -77,10 +77,10 @@ void check(int secreteNum, int checkNum){
     int Out = 0;
     int compare_list[2][3];
 
-    compare_list[0][0] = secreteNum / 100;
-    secreteNum = secreteNum % 100;
-    compare_list[0][1] = secreteNum / 10;
-    compare_list[0][2] = secreteNum % 10;
+    compare_list[0][0] = secretNum / 100;
+    secretNum = secretNum % 100;
+    compare_list[0][1] = secretNum / 10;
+    compare_list[0][2] = secretNum % 10;
 
     compare_list[1][0] = checkNum / 100;
     checkNum = checkNum % 100;
