@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "gomoku.c"
 
 //function prototypes
 void connect_four(); //asas6978
@@ -18,163 +17,255 @@ void connect_four(); //asas6978
 void num_baseball(); //jinnyfruit
 
 
-int table[19][19];
 
-void move_arrow_key(char chr, int *x, int *y, int x_b, int y_b);
 
-void display_stone(int table[][20][20]);
+void move_cursor(char c, int r);
+int game_end();
+void draw_table();
+void set_stone(int order, int c, int r);
 
-int game_end(int table[][20][20]);
+char stone[2] = { 'O', 'X' };
+int table[19][19] = { 0 };
+int col_num = 10, row_num = 10;
+char col = 'a';
+int row = 0;
 
-void draw_table(int c, int r);
-
-void display_stone(int table[][20][20])
-{
-    int i, x, y;
-    char *stone[2] = { "○", "●" };
-
-        for (i = 0; i < 2; i++)
-            for (x = 1; x < 20; x++)
-                for (y = 1; y < 20; y++)
-                {
-                    if (table[i][x][y] == 1)
-                    {
-                            //gotoxy(x * 2 - 1, y);
-                            printf("%s", stone[i]);
-                    }
-
-                }
+void set_stone(int order, int c, int r){
+    table[r][c] = order+1;
 }
 
-
-void move_arrow_key(char key, int *x1, int *y1, int x_b, int y_b)
-{
-        switch (key)
-        {
-        case 72: //위쪽 방향키
-            if (*y1 > 0)
-               *y1 -=*y1; 
-
-               break;
-
-        case 75: //왼쪽 방향키
-               if (*x1 > 0)
-               *x1 -=*x1; 
-
-               break;
-
-        case 77://오른쪽 방향키
-               if (*x1 < 20)
-               *x1 +=*x1; 
-
-               break;
-
-        case 80: //아래쪽 방향키
-               if (*y1 < 20)
-               *y1 +=*y1; 
-
-               break;
-
-        default:
-
-               return;
-        }
-}
-
-void draw_table(int c, int r)
+void draw_table()
 {
 
-        int i, j;
+    int r = 18, c = 18;
+    int i, j;
+
+    printf("   A B C D E F G H I J K L M N O P Q R S\n");
 
         unsigned char a = 0xa6;
         unsigned char b[12];
 
         for (i = 1; i < 12; i++)
-               b[i] = 0xa0 + i;
+            b[i] = 0xa0 + i;
 
-        printf("%c%c", a, b[3]);
+        if(table[0][0] == 0)
+            printf("0  %c%c ", a, b[3]);
+        else
+            printf("0  %c", stone[table[0][0]-1]);
 
-        for (i = 0; i < c - 1; i++)
-               printf("%c%c", a, b[8]);
+        for (i = 1; i < c; i++)
+            if(table[0][i] == 0)
+                printf("%c%c ",a, b[8]);
+            else
+                printf("%c ", stone[table[0][i]-1]);
 
-        printf("%c%c\n", a, b[4]);
+        if(table[0][18] == 0)
+            printf("%c%c \n", a, b[4]);
+        else
+            printf("%c ", stone[table[0][18]-1]);
 
-        for (i = 0; i < r - 1; i++)
+        
+        for (i = 1; i < r; i++)
         {
-               printf("%c%c", a, b[7]);
-               for (j = 0; j < c - 1; j++)
-                       printf("%c%c", a, b[11]);
+            if(i>9)
+                if(table[i][0] == 0)
+                    printf("%d %c%c ", i, a, b[7]);
+                else
+                    printf("%d %c ", i, stone[table[i][0]-1]);
+            else
+                if(table[i][0] == 0)
+                    printf("%d  %c%c ", i, a, b[7]);
+                else
+                    printf("%d  %c ", i, stone[table[i][0]-1]);
 
-               printf("%c%c\n", a, b[9]);
+            for (j = 1; j < c; j++)
+                if(table[i][j] == 0)
+                    printf("%c%c ",a, b[11]);
+                else
+                    printf("%c ", stone[table[i][j]-1]);
+
+            if(table[i][18] == 0)
+                printf("%c%c \n", a, b[9]);
+            else
+                printf("%c \n",stone[table[i][18]-1]);
         }
 
-        printf("%c%c", a, b[6]);
+        if(table[18][0] == 0)
+            printf("18 %c%c ", a, b[6]);
+        else
+            printf("18 %c ",stone[table[18][0]-1]);
 
-        for (i = 0; i < c - 1; i++)
-               printf("%c%c", a, b[10]);
+        for (i = 1; i < c; i++)
+            if(table[18][i] == 0)
+                printf("%c%c ", a, b[10]);
+            else
+                printf("%c ",stone[table[18][i]-1]);
 
-        printf("%c%c\n", a, b[5]);
-
+        if(table[18][18] == 0)
+            printf("%c%c\n", a, b[5]);
+        else
+            printf("%c ",stone[table[18][18]-1]);
 }
+
+
+int game_end()  
+{
+    int count = 0;
+
+    for(int o = 1; o < 3; o++){
+        for(int i = 0; i < 19; i++) // vertical 5 counter
+        {
+            count = 0;
+            for(int j = 0; j < 19; j++){
+                if(table[j][i] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+            }
+        }
+    }
+
+    for(int o = 1; o < 3; o++){
+        for(int i = 0; i< 19; i++) // horizontal 5 counter
+        {
+            count = 0;
+            for(int j = 0; j< 19; j++){
+                if(table[i][j] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+            }
+        }
+    }
+
+    for(int o = 1; o < 3; o++){
+        for(int j = 0; j < 14; j++){
+            for(int i = 0; i + j < 19; i++) // right cross 5 counter
+            {
+                count = 0;
+                
+                if(table[i + j][i] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+                
+            }
+
+            for(int i = 1; i + j < 19; i++) // right cross 5 counter
+            {
+                count = 0;
+                
+                if(table[i][i + j] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+                
+            }
+        }
+        
+    }
+
+    for(int o = 1; o > 3; o++){
+        for(int j = 0; j < 14; j++){
+            for(int i = 0; i + j < 19; i++) // left cross 5 counter
+            {
+                count = 0;
+                
+                if(table[i + j][18 - i] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+                
+            }
+
+            for(int i = 1; i + j < 19; i++) 
+            {
+                count = 0;
+                
+                if(table[i][i + j] == o)
+                    count++;
+                else
+                    count = 0;
+
+                if(count == 5)
+                    return o;
+                
+            }
+        }
+
+    }
+}
+
+
 
 void gomoku()
 {
-    // int x = 1, y = 1;
-    // int table[19][19] = { 0 };
-    // char *stone[2]={"○","●"};   //포인터 처리하면 오류가 없어지네?
+    int order=0;
 
-    // printf("start gomoku! \nPress any button to start game!");
-    // getchar();
-    // printf(table);
-    
-    int x = 1, y = 1, other = 0;
-    int table[2][20][20] = { 0 };
-    char key;
-    char *stone[2] = { "○", "●" };
+    printf("start gomoku! \nType any text to start game!\n");
+    printf("Type Q then quit\n");
+    scanf(" %c", &col); 
 
-        
-        while (1)
-        {
+    while (1)
+    {
+        draw_table();
 
-           // gotoxy(x, y);
-            draw_table(18, 18);
-            
-            printf("%s", stone[other]);
+        printf("Type location to place stones ex)A3\n");
+        printf("O stone is first\n");
 
-            display_stone(table);
-           // gotoxy(1, 20);
+        scanf(" %c", &col);
 
-            printf("방향키로 움직일 수 있으며 스페이스(와 엔터)를 입력하면 돌을 놓을 수 있습니다. \n");
-            printf("q를 누르면 게임을 종료합니다. \n");
-            //gotoxy(1, 21);
-
-            printf("돌을 놓았으면 상대방 차례입니다. ");
-
-            key = getchar();
-
-        if (key == 'q')    
+        if(col == 'q') 
             break;
 
-        else if (key == ' ')
-        {
-            table[other][(x + 1) / 2][y] = 1;
-            other--;
+        scanf("%d", &row);
+
+        if(col == ' ' || row == ' ' || col < 'A' || col > 'S' || row < 0 || row > 19)
+        {    
+        printf("Your input is incorrect.\n");
         }
-        else if (key >= 72)
-            move_arrow_key(key, &x, &y, 37, 19);
+        else if(table[row][col - 'A'] != 0){
+            printf("Your input is duplicated.\n");
+        }
+        else
+        {
+            set_stone(order, col - 'A', row);
 
-        // if (game_end(table) == 1)
-        // {
-        //     printf("흑돌이 이겼습니다\n");
-        //     break;
+            if (order == 1)
+                order--;
+            else    
+                order++;
+        }
 
-        // }
-        // else if (game_end(table) == 2)
-        // {
-        //     printf("백돌이 이겼습니다\n");
-        //     break;
-        // }
+        if (game_end() == 1)
+        {
+            printf("O stone, Win!\n");
+            break;
+        }
+        else if (game_end() == 2)
+        {
+            printf("X stone, Win!\n");
+            break;
+        }
+        
     } 
+
+
 
 } // Tuna
 
@@ -213,16 +304,16 @@ int main()
             printf("Thanks for playing! Hope to see you soon!\n");
             return 0;
         case '1':
-            connect_four();
+           // connect_four();
             break;
         case'2':
-            num_baseball();
+            //num_baseball();
             break;
         case '3':
             gomoku();
             break;
         case '4':
-            tic_tac_toe();
+            //tic_tac_toe();
             break;
         default:
             printf("You typed a wrong number! Please try again!\n");
