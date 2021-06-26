@@ -494,9 +494,9 @@ void gomoku()                   // 오목 메인 함수
         printf("\n----------Type location to place stones ex)A3----------\n");
         
 
-        scanf(" %c", &col);     
+        scanf(" %c", &col);        // 바둑돌을 넣을 col, row 입력
 
-        if(col == 'q') 
+        if(col == 'q')             // q 입력이면 게임종료 후 메인 메뉴로 이동
             break;
 
         scanf("%d", &row);
