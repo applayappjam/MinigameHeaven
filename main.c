@@ -372,6 +372,7 @@ void display_table_stone(int table[TABLE_LENGHT][TABLE_LENGHT])                 
 int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판별해주는 함수   
 {
     int count = 0; //5가 되면 승패 결정
+    int end = 0;
 
     for(int o = 1; o < 3; o++){         // vertical 5 counter ↓, o는 바둑돌 순서
         for(int i = 0; i < 19; i++) 
@@ -383,8 +384,10 @@ int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판�
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
             }
         }
     }
@@ -399,14 +402,16 @@ int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판�
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
             }
         }
     }
 
     for(int o = 1; o < 3; o++){         // right cross 5 counter ↘
-        for(int j = 0; j < 14; j++){ 
+        for(int j = 0; j < 15; j++){ 
             count = 0;
             for(int i = 0; i + j < 19; i++) 
             {
@@ -415,20 +420,24 @@ int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판�
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
                 
             }
 
-            for(int i = 1; i + j < 19; i++) 
+            for(int i = 0; i + j < 19; i++) 
             {
                 if(table[i][i + j] == o)
                     count++;
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
                 
             }
         }
@@ -436,7 +445,7 @@ int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판�
     }
 
     for(int o = 1; o < 3; o++){         // left cross 5 counter ↙
-        for(int j = 0; j < 14; j++){
+        for(int j = 0; j < 15; j++){
             count = 0;
             for(int i = 0; i + j < 19; i++) 
             {
@@ -445,26 +454,33 @@ int game_end(int table[TABLE_LENGHT][TABLE_LENGHT])  // 게임의 승패를 판�
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
                 
             }
 
-            for(int i = 1; i + j < 19; i++) 
+            for(int i = 0; i + j < 19; i++) 
             {
                 if(table[i][18 - i + j] == o)
                     count++;
                 else
                     count = 0;
 
-                if(count == 5)
-                    return o;
+                if(count > 5)
+                    end = 0;
+                else if(count == 5)
+                    end = o;
                 
             }
         }
     }
 
-    return 0;
+    if(end > 0)
+        return end;
+    else
+        return 0;
 }
 
 
@@ -477,7 +493,7 @@ void gomoku()                   // 오목 메인 함수
     int table[TABLE_LENGHT][TABLE_LENGHT] = { 0 }; // 오목판 2차원배열
 
     printf("start gomoku! \nType any text to start game!\n");
-    printf("Type Q then quit\n");
+    printf("Type q then quit(small q)\n");
     scanf(" %c", &col);         // 한번의 텍스트를 입력 해야 게임 시작
 
     printf("O stone is first\n");
@@ -490,7 +506,7 @@ void gomoku()                   // 오목 메인 함수
 
         scanf(" %c", &col);        // 바둑돌을 넣을 col, row 입력
 
-        if(col == 'q' || col == 'Q')             // q 입력이면 게임종료 후 메인 메뉴로 이동
+        if(col == 'q')             // q 입력이면 게임종료 후 메인 메뉴로 이동
             break;
 
         scanf("%d", &row);
