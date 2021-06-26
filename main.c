@@ -323,97 +323,60 @@ void check(int secretNum, int checkNum){
 }
 
 
+#define TABLE_LENGHT 19
 
+int game_end();                             // 게임의 승패를 판별해주는 함수   
+void display_table_stone();                 // 오목판과 오목돌을 표시해주는 함수
+void set_stone(int order, int c, int r);    // 오목돌을 놓는 함수(표시는 x)
 
-void move_cursor(char c, int r);
-int game_end();
-void draw_table();
-void set_stone(int order, int c, int r);
+int table[TABLE_LENGHT][TABLE_LENGHT] = { 0 };
 
-char stone[2] = { 'O', 'X' };
-int table[19][19] = { 0 };
-int col_num = 10, row_num = 10;
-char col = 'a';
-int row = 0;
-
-void set_stone(int order, int c, int r){
-    table[r][c] = order+1;
+void set_stone(int order, int c, int r){    // 오목판과 오목돌을 표시해주는 함수
+    table[r][c] = order+1;                  // order == 0 -> 흑돌 차례, order == 1 -> 백돌 차례
+                                                // 돌을 놓았을 때 그 때의 2차원 배열 좌표에서 순서 +1의 값을 저장
 }
 
-void draw_table()
+void display_table_stone()                  // 오목판과 오목돌을 표시해주는 함수
 {
+    char stone[2] = { 'O', 'X' };           // 오목돌 종류
+    const int r = TABLE_LENGHT -1 ,c = r;   // 오목판 크기, for문에서 0~18을 사용하므로 -1
+    int i, j;                               // for문 변수
 
-    int r = 18, c = 18;
-    int i, j;
-
-    printf("   A B C D E F G H I J K L M N O P Q R S\n");
-
-        if(table[0][0] == 0)
-            printf("0  + ");
-        else
-            printf("0  %c", stone[table[0][0]-1]);
-
-        for (i = 1; i < c; i++)
-            if(table[0][i] == 0)
-                printf("+ ");
-            else
-                printf("%c ", stone[table[0][i]-1]);
-
-        if(table[0][18] == 0)
-            printf("+ \n");
-        else
-            printf("%c ", stone[table[0][18]-1]);
+    printf("   A B C D E F G H I J K L M N O P Q R S\n"); // row 순서 디스플레이
 
         
-        for (i = 1; i < r; i++)
+        for (i = 0; i < r+1; i++)
         {
-            if(i>9)
-                if(table[i][0] == 0)
-                    printf("%d + ", i);
-                else
-                    printf("%d %c ", i, stone[table[i][0]-1]);
-            else
-                if(table[i][0] == 0)
-                    printf("%d  + ", i);
-                else
-                    printf("%d  %c ", i, stone[table[i][0]-1]);
+            if(i>9)     //col 순서를 표시한 숫자와 바둑판과의 간격을 맞추기 위하여 
+                            //false일때 "1  +"(뛰어쓰기 두칸), true일때 "10 +"(뛰어쓰기 한칸) 
 
-            for (j = 1; j < c; j++)
-                if(table[i][j] == 0)
-                    printf("+ ");
+                if(table[i][0] == 0)        //바둑돌이 없다면
+                    printf("%d + ", i);     //바둑판 표시 +
                 else
-                    printf("%c ", stone[table[i][j]-1]);
-
-            if(table[i][18] == 0)
-                printf("+ \n");
+                    printf("%d %c ", i, stone[table[i][0]-1]);      //있다면 순서에 맞는 바둑돌 놓기
             else
-                printf("%c \n",stone[table[i][18]-1]);
+                if(table[i][0] == 0)        //바둑돌이 없다면
+                    printf("%d  + ", i);    //바둑판 표시 +
+                else
+                    printf("%d  %c ", i, stone[table[i][0]-1]);     //있다면 순서에 맞는 바둑돌 놓기
+
+            for (j = 1; j < c+1; j++)
+                if(table[i][j] == 0)        //바둑돌이 없다면
+                    printf("+ ");           //바둑판 표시 +
+                else
+                    printf("%c ",stone[table[i][j]-1]);             //있다면 순서에 맞는 바둑돌 놓기
+
+            printf("\n"); // j for문(가로줄) 끝, 다음 줄
         }
-
-        if(table[18][0] == 0)
-            printf("18 + ");
-        else
-            printf("18 %c ",stone[table[18][0]-1]);
-
-        for (i = 1; i < c; i++)
-            if(table[18][i] == 0)
-                printf("+ ");
-            else
-                printf("%c ",stone[table[18][i]-1]);
-
-        if(table[18][18] == 0)
-            printf("+\n");
-        else
-            printf("%c ",stone[table[18][18]-1]);
 }
 
 
-int game_end()  
+int game_end()  // 게임의 승패를 판별해주는 함수   
 {
-    int count = 0;
+    int count = 0; //5가 되면 승패 결정
 
-    for(int o = 1; o < 3; o++){
-        for(int i = 0; i < 19; i++) // vertical 5 counter
+    for(int o = 1; o < 3; o++){         // vertical 5 counter, o는 바둑돌 순서
+        for(int i = 0; i < 19; i++) 
         {
             count = 0;
             for(int j = 0; j < 19; j++){
@@ -428,8 +391,8 @@ int game_end()
         }
     }
 
-    for(int o = 1; o < 3; o++){
-        for(int i = 0; i< 19; i++) // horizontal 5 counter
+    for(int o = 1; o < 3; o++){         // horizontal 5 counter
+        for(int i = 0; i< 19; i++) 
         {
             count = 0;
             for(int j = 0; j< 19; j++){
@@ -444,9 +407,9 @@ int game_end()
         }
     }
 
-    for(int o = 1; o < 3; o++){
+    for(int o = 1; o < 3; o++){         // right cross 5 counter ↘
         for(int j = 0; j < 14; j++){
-            for(int i = 0; i + j < 19; i++) // right cross 5 counter
+            for(int i = 0; i + j < 19; i++) 
             {
                 count = 0;
                 
@@ -460,7 +423,7 @@ int game_end()
                 
             }
 
-            for(int i = 1; i + j < 19; i++) // right cross 5 counter
+            for(int i = 1; i + j < 19; i++) 
             {
                 count = 0;
                 
@@ -477,9 +440,9 @@ int game_end()
         
     }
 
-    for(int o = 1; o > 3; o++){
+    for(int o = 1; o > 3; o++){         // left cross 5 counter ↙
         for(int j = 0; j < 14; j++){
-            for(int i = 0; i + j < 19; i++) // left cross 5 counter
+            for(int i = 0; i + j < 19; i++) 
             {
                 count = 0;
                 
@@ -513,53 +476,56 @@ int game_end()
 
 
 
-void gomoku()
+void gomoku()                   // 오목 메인 함수
 {
-    int order=0;
+    int order=0;                // 오목돌 순서 O - 선, X - 두번째
+    char col = 'a';             // 돌 놓는 col 위치
+    int row = 0;                // 돌 놓는 row 위치
 
     printf("start gomoku! \nType any text to start game!\n");
     printf("Type Q then quit\n");
-    scanf(" %c", &col); 
+    scanf(" %c", &col);         // 한번의 텍스트를 입력 해야 게임 시작
 
-    while (1)
+    printf("O stone is first\n");
+    while (1)                   // 게임이 끝날 때 까지 반복
     {
-        draw_table();
+        display_table_stone();  //오목판 및 오목 돌 디스플레이 함수 불러오기
 
-        printf("Type location to place stones ex)A3\n");
-        printf("O stone is first\n");
+        printf("\n----------Type location to place stones ex)A3----------\n");
+        
 
-        scanf(" %c", &col);
+        scanf(" %c", &col);     
 
         if(col == 'q') 
             break;
 
         scanf("%d", &row);
 
-        if(col == ' ' || row == ' ' || col < 'A' || col > 'S' || row < 0 || row > 19)
+        if(col == ' ' || row == ' ' || col < 'A' || col > 'S' || row < 0 || row > 19)   // 예외 처리
         {    
-        printf("Your input is incorrect.\n");
+        printf("----------Your input is incorrect. Please type again.(Alphabet must be capital)----------\n\n");
         }
-        else if(table[row][col - 'A'] != 0){
-            printf("Your input is duplicated.\n");
+        else if(table[row][col - 'A'] != 0){                                            // 중복 처리
+            printf("----------Your input is duplicated. Please type again.----------\n\n");
         }
         else
         {
-            set_stone(order, col - 'A', row);
+            set_stone(order, col - 'A', row);       // set_stone 함수를 불러와 돌 놓기
 
-            if (order == 1)
+            if (order == 1)                         // 순서 변경 - 흑 = 0, 백 = 1
                 order--;
             else    
                 order++;
         }
 
-        if (game_end() == 1)
+        if (game_end() == 1)                        // game_end() 함수를 통한 게임 승패 확인 - O stone 기준
         {
-            printf("O stone, Win!\n");
+            printf("**********O stone, Win!**********\n\n");
             break;
         }
-        else if (game_end() == 2)
+        else if (game_end() == 2)                   // game_end() 함수를 통한 게임 승패 확인 - X stone 기준
         {
-            printf("X stone, Win!\n");
+            printf("**********X stone, Win!**********\n\n");
             break;
         }
         
