@@ -375,7 +375,7 @@ int game_end()  // 게임의 승패를 판별해주는 함수
 {
     int count = 0; //5가 되면 승패 결정
 
-    for(int o = 1; o < 3; o++){         // vertical 5 counter, o는 바둑돌 순서
+    for(int o = 1; o < 3; o++){         // vertical 5 counter ↓, o는 바둑돌 순서
         for(int i = 0; i < 19; i++) 
         {
             count = 0;
@@ -391,7 +391,7 @@ int game_end()  // 게임의 승패를 판별해주는 함수
         }
     }
 
-    for(int o = 1; o < 3; o++){         // horizontal 5 counter
+    for(int o = 1; o < 3; o++){         // horizontal 5 counter →
         for(int i = 0; i< 19; i++) 
         {
             count = 0;
@@ -408,11 +408,10 @@ int game_end()  // 게임의 승패를 판별해주는 함수
     }
 
     for(int o = 1; o < 3; o++){         // right cross 5 counter ↘
-        for(int j = 0; j < 14; j++){
+        for(int j = 0; j < 14; j++){ 
+            count = 0;
             for(int i = 0; i + j < 19; i++) 
             {
-                count = 0;
-                
                 if(table[i + j][i] == o)
                     count++;
                 else
@@ -425,8 +424,6 @@ int game_end()  // 게임의 승패를 판별해주는 함수
 
             for(int i = 1; i + j < 19; i++) 
             {
-                count = 0;
-                
                 if(table[i][i + j] == o)
                     count++;
                 else
@@ -442,10 +439,9 @@ int game_end()  // 게임의 승패를 판별해주는 함수
 
     for(int o = 1; o > 3; o++){         // left cross 5 counter ↙
         for(int j = 0; j < 14; j++){
+            count = 0;
             for(int i = 0; i + j < 19; i++) 
             {
-                count = 0;
-                
                 if(table[i + j][18 - i] == o)
                     count++;
                 else
@@ -458,8 +454,6 @@ int game_end()  // 게임의 승패를 판별해주는 함수
 
             for(int i = 1; i + j < 19; i++) 
             {
-                count = 0;
-                
                 if(table[i][i + j] == o)
                     count++;
                 else
@@ -470,8 +464,9 @@ int game_end()  // 게임의 승패를 판별해주는 함수
                 
             }
         }
-
     }
+
+    return 0;
 }
 
 
@@ -520,11 +515,13 @@ void gomoku()                   // 오목 메인 함수
 
         if (game_end() == 1)                        // game_end() 함수를 통한 게임 승패 확인 - O stone 기준
         {
+            display_table_stone();  //오목판 및 오목 돌 디스플레이 함수 불러오기
             printf("**********O stone, Win!**********\n\n");
             break;
         }
         else if (game_end() == 2)                   // game_end() 함수를 통한 게임 승패 확인 - X stone 기준
         {
+            display_table_stone();  //오목판 및 오목 돌 디스플레이 함수 불러오기
             printf("**********X stone, Win!**********\n\n");
             break;
         }
